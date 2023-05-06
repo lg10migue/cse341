@@ -16,6 +16,32 @@ GET http://localhost:8080/contacts/644c2d81cd84282a3bfcf640
 GET http://localhost:8080/contacts/644c2deccd84282a3bfd93e0
 ###
 
+// Add a new contact.
+POST http://localhost:8080/contacts
+Content-Type: application/json
+
+{
+    "firstName" : "Peter",
+    "lastName" : "Parker",
+    "email" : "spider@man.com",
+    "favoriteColor" : "Red",
+    "birthday" : "August 10 2001"
+}
+###
+
+// Update a contact.
+PUT http://localhost:8080/contacts/644c2deccd84282a3bfd93e0
+Content-Type: application/json
+
+{
+    "email" : "bbanner@angry.com"
+}
+###
+
+// Delete a contact.
+DELETE http://localhost:8080/contacts/6455c3ac4ce403e5422709c0
+###
+
 // Production.
 
 // Get all contacts.
@@ -32,3 +58,30 @@ GET https://contacts-project-cse341.onrender.com/contacts/644c2d81cd84282a3bfcf6
 
 // Get Bruce Banner contact.
 GET https://contacts-project-cse341.onrender.com/contacts/644c2deccd84282a3bfd93e0
+###
+
+// Add a new contact.
+POST https://contacts-project-cse341.onrender.com/contacts
+Content-Type: application/json
+
+{
+    "firstName" : "Peter",
+    "lastName" : "Parker",
+    "email" : "spider@man.com",
+    "favoriteColor" : "Red",
+    "birthday" : "August 10 2001"
+}
+###
+
+// Update a contact.
+PUT https://contacts-project-cse341.onrender.com/contacts/644c2deccd84282a3bfd93e0
+Content-Type: application/json
+
+{
+    "email" : "banner@angry.com"
+}
+###
+
+// Delete a contact.
+DELETE https://contacts-project-cse341.onrender.com/contacts/6455c3ac4ce403e5422709c0
+###
