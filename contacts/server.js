@@ -5,6 +5,10 @@ const port = process.env.PORT || 8080 ;
 const app = express() ;
 
 app.use( express.json() ) ;
+app.use( ( request, response, next ) => {
+    response.setHeader( "Access-Control-Allow-Origin", "*" ) ;
+    next() ;
+} ) ;
 app.use( "/", routes ) ;
 
 mongodb.initDb( ( err ) => {
