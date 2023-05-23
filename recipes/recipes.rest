@@ -1,0 +1,77 @@
+// Development.
+
+// Get user by id.
+POST http://localhost:8080/graphql
+Content-Type: application/json
+X-Request-Type: GraphQL
+
+query ( $userId: ID! ) {
+    user( id: $userId ) {
+        firstName
+        email
+    }
+}
+
+{
+    "userId" : "646cfef03a4c513456b395a7"
+}
+###
+
+// Create a new user.
+POST http://localhost:8080/graphql
+Content-Type: application/json
+X-Request-Type: GraphQL
+
+mutation ( $firstName: String!, $lastName: String!, $email: String!, $birthday: String!, $password: String! ) {
+    newUser( firstName: $firstName, lastName: $lastName, email: $email, birthday: $birthday, password: $password ) {
+        _id
+    }
+}
+
+{
+    "firstName" : "Dummy",
+    "lastName" : "User",
+    "email" : "dummy@dummy.com",
+    "birthday" : "34/34/2043",
+    "password" : "dummyPassword"  
+}
+###
+
+// Production.
+
+// Get user by id.
+POST https://recipes-project-cse341.onrender.com/graphql
+Content-Type: application/json
+X-Request-Type: GraphQL
+
+query ( $userId: ID! ) {
+    user( id: $userId ) {
+        firstName
+        email
+    }
+}
+
+{
+    "userId" : "646cfef03a4c513456b395a7"
+}
+###
+
+// Create a new user.
+POST https://recipes-project-cse341.onrender.com/graphql
+Content-Type: application/json
+X-Request-Type: GraphQL
+
+mutation ( $firstName: String!, $lastName: String!, $email: String!, $birthday: String!, $password: String! ) {
+    newUser( firstName: $firstName, lastName: $lastName, email: $email, birthday: $birthday, password: $password ) {
+        _id
+    }
+}
+
+{
+    "firstName" : "Dummy",
+    "lastName" : "User",
+    "email" : "dummy@dummy.com",
+    "birthday" : "34/34/2043",
+    "password" : "dummyPassword"  
+}
+###
