@@ -1,5 +1,6 @@
 import express from "express" ;
 import { ApolloServer } from "@apollo/server" ;
+import { ApolloServerPluginLandingPageDisabled } from "@apollo/server/plugin/disabled";
 import { expressMiddleware } from "@apollo/server/express4" ;
 import { initDb } from "./db/connection" ;
 import cors from "cors" ;
@@ -10,7 +11,11 @@ const port = process.env.PORT || 8080 ;
 const app = express();
 
 async function startServer() {
-    const server = new ApolloServer( { typeDefs, resolvers } ) ;
+    const server = new ApolloServer( { 
+        typeDefs, 
+        resolvers,
+        plugins: [ ApolloServerPluginLandingPageDisabled() ] 
+    } ) ;
 
     await server.start() ;
     app.use( "/graphql", cors(), express.json(), expressMiddleware( server ) ) ;
