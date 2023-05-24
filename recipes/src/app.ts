@@ -1,6 +1,6 @@
 import express from "express" ;
 import { ApolloServer } from "@apollo/server" ;
-import { ApolloServerPluginLandingPageDisabled } from "@apollo/server/plugin/disabled";
+import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
 import { expressMiddleware } from "@apollo/server/express4" ;
 import { initDb } from "./db/connection" ;
 import cors from "cors" ;
@@ -14,7 +14,7 @@ async function startServer() {
     const server = new ApolloServer( { 
         typeDefs, 
         resolvers,
-        plugins: [ ApolloServerPluginLandingPageDisabled() ] 
+        plugins: [ ApolloServerPluginLandingPageLocalDefault() ] 
     } ) ;
 
     await server.start() ;
