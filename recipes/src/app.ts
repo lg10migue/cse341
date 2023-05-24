@@ -14,7 +14,8 @@ async function startServer() {
     const server = new ApolloServer( { 
         typeDefs, 
         resolvers,
-        plugins: [ ApolloServerPluginLandingPageLocalDefault() ] 
+        plugins: [ ApolloServerPluginLandingPageLocalDefault() ],
+        introspection: true
     } ) ;
 
     await server.start() ;
