@@ -5,18 +5,21 @@ const userSchema = buildSchema( `
         _id: ID!
         firstName: String!
         lastName: String!
+        username: String!
         email: String!
         birthday: String!
         password: String!
     }
 
     type Query {
-        user( id: ID! ): User
+        user( userId: ID! ): User!
         getAllUsers: [User!]!
     }
 
     type Mutation {
-        newUser( firstName: String!, lastName: String!, email: String!, birthday: String!, password: String! ): User!
+        newUser( firstName: String!, lastName: String!, username: String!, email: String!, birthday: String!, password: String! ): ID!
+        updateUser( userId: String!, firstName: String, lastName: String, username: String, email: String, birthday: String, password: String ): User!
+        deleteUser( userId: String! ): ID!
     }
 ` )
 
