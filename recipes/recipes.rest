@@ -6,7 +6,7 @@ Content-Type: application/json
 X-Request-Type: GraphQL
 
 query ( $userId: ID! ) {
-    user( id: $userId ) {
+    user( userId: $userId ) {
         firstName
         email
     }
@@ -22,18 +22,50 @@ POST http://localhost:8080/graphql
 Content-Type: application/json
 X-Request-Type: GraphQL
 
-mutation ( $firstName: String!, $lastName: String!, $email: String!, $birthday: String!, $password: String! ) {
-    newUser( firstName: $firstName, lastName: $lastName, email: $email, birthday: $birthday, password: $password ) {
-        _id
-    }
+mutation ( $firstName: String!, $lastName: String!, $username: String! $email: String!, $birthday: String!, $password: String! ) {
+    newUser( firstName: $firstName, lastName: $lastName, username: $username, email: $email, birthday: $birthday, password: $password )
 }
 
 {
     "firstName" : "Dummy",
     "lastName" : "User",
+    "username" : "Udummy",
     "email" : "dummy@dummy.com",
     "birthday" : "34/34/2043",
     "password" : "dummyPassword"  
+}
+###
+
+// Update a user.
+POST http://localhost:8080/graphql
+Content-Type: application/json
+X-Request-Type: GraphQL
+
+mutation ( $userId: String!, $email: String ) {
+    updateUser( userId: $userId, email: $email ) {
+        _id
+        firstName
+        email
+    }
+}
+
+{
+    "userId" : "6472f9096aacd80df936fc1b",
+    "email" : "dummy@dummytest.com"
+}
+###
+
+// Delete a user.
+POST http://localhost:8080/graphql
+Content-Type: application/json
+X-Request-Type: GraphQL
+
+mutation ( $userId: String! ) {
+    deleteUser( userId: $userId )
+}
+
+{
+    "userId" : "6472f9096aacd80df936fc1b"
 }
 ###
 
@@ -45,7 +77,7 @@ Content-Type: application/json
 X-Request-Type: GraphQL
 
 query ( $userId: ID! ) {
-    user( id: $userId ) {
+    user( userId: $userId ) {
         firstName
         email
     }
@@ -61,17 +93,49 @@ POST https://recipes-project-cse341.onrender.com/graphql
 Content-Type: application/json
 X-Request-Type: GraphQL
 
-mutation ( $firstName: String!, $lastName: String!, $email: String!, $birthday: String!, $password: String! ) {
-    newUser( firstName: $firstName, lastName: $lastName, email: $email, birthday: $birthday, password: $password ) {
-        _id
-    }
+mutation ( $firstName: String!, $lastName: String!, $username: String!, $email: String!, $birthday: String!, $password: String! ) {
+    newUser( firstName: $firstName, lastName: $lastName, username: $username, email: $email, birthday: $birthday, password: $password )
 }
 
 {
     "firstName" : "Dummy",
     "lastName" : "User",
+    "username" : "dummyU", 
     "email" : "dummy@dummy.com",
     "birthday" : "34/34/2043",
     "password" : "dummyPassword"  
+}
+###
+
+// Update a user.
+POST https://recipes-project-cse341.onrender.com/graphql
+Content-Type: application/json
+X-Request-Type: GraphQL
+
+mutation ( $userId: String!, $email: String ) {
+    updateUser( userId: $userId, email: $email ) {
+        _id
+        firstName
+        email
+    }
+}
+
+{
+    "userId" : "6472fbeabc0d4e98e7df71c0",
+    "email" : "dummy@dummytest.com"
+}
+###
+
+// Delete a user.
+POST https://recipes-project-cse341.onrender.com/graphql
+Content-Type: application/json
+X-Request-Type: GraphQL
+
+mutation ( $userId: String! ) {
+    deleteUser( userId: $userId )
+}
+
+{
+    "userId" : "6472fbeabc0d4e98e7df71c0"
 }
 ###
