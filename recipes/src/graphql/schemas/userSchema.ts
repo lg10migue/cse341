@@ -21,6 +21,6 @@ const userSchema = buildSchema( `
         updateUser( userId: String!, firstName: String, lastName: String, username: String, email: String, birthday: String, password: String ): User!
         deleteUser( userId: String! ): ID!
     }
-` )
+` ) ;
 
 export { userSchema } ;
