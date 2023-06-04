@@ -8,7 +8,7 @@ const recipeSchema = buildSchema( `
         steps: [String!]!
         prepTime: String!
         cookTime: String!
-        userId: ID!
+        userId: String!
     }
 
     type Query {
@@ -17,8 +17,8 @@ const recipeSchema = buildSchema( `
     }
 
     type Mutation {
-        newRecipe( title: String!, ingredients: [String!]!, steps: [String!]!, prepTime: String!, cookTime: String!, userId: ID! ): ID!
-        updateRecipe( recipeId: String!, title: String, ingredients: [String!], steps: [String!], prepTime: String, cookTime: String, userId: ID ): Recipe!
+        newRecipe( title: String!, ingredients: [String!]!, steps: [String!]!, prepTime: String!, cookTime: String!, userId: String! ): ID!
+        updateRecipe( recipeId: String!, title: String, ingredients: [String!], steps: [String!], prepTime: String, cookTime: String, userId: String ): Recipe!
         deleteRecipe( recipeId: String! ): ID!
     }
 ` ) ;

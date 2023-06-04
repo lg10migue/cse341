@@ -59,16 +59,16 @@ const userResolvers = {
             if ( result.modifiedCount > 0 ) {
                 return await usersCollection().findOne( { _id: userId } ) ;
             } else {
-                throw new GraphQLError( "Contact not found, please check your userId!", { extensions: { code: "BAD_USER_INPUT" } } ) ;
+                throw new GraphQLError( "User not found, please check your userId!", { extensions: { code: "BAD_USER_INPUT" } } ) ;
             } ;
         },
         deleteUser: async ( _: any, { userId }: any ) => {
             checkId( userId ) ;
             const result = await usersCollection().deleteOne( { _id: new ObjectId( userId ) } ) ;
             if ( result.deletedCount > 0 ) {
-                return userId
+                return userId ;
             } else {
-                throw new GraphQLError( "Contact not found, please check your userId!", { extensions: { code: "BAD_USER_INPUT" } } ) ;
+                throw new GraphQLError( "User not found, please check your userId!", { extensions: { code: "BAD_USER_INPUT" } } ) ;
             } ;
         }
     }
