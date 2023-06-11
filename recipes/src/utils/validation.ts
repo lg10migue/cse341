@@ -1,6 +1,7 @@
 import { GraphQLError } from "graphql" ;
 import { ObjectId } from "mongodb" ;
 import validator from "validator" ;
+import { Request } from "express";
 
 export const checkEmail = async ( email: string, dbCollection: Function ) => {
     if ( !validator.isEmail( email ) ) {
@@ -25,4 +26,8 @@ export const checkRequiredFields = ( data: any, fields: string[] = [] ) => {
             throw new GraphQLError( `${field} field is required!`, { extensions: { code: "BAD_USER_INPUT" } } ) ;
         } ;
     } ;
+} ;
+
+export const checkAuthentication = ( request: Request ) => {
+    if ( !request.isAuthenticated() ) { throw new GraphQLError( "You're not logged in!" ) } ;
 } ;

@@ -12,13 +12,13 @@ const recipeSchema = buildSchema( `
     }
 
     type Query {
-        recipe( recipeId: ID! ): Recipe!
+        getRecipe( recipeId: ID! ): Recipe!
         getAllRecipes: [Recipe!]!
     }
 
     type Mutation {
-        newRecipe( title: String!, ingredients: [String!]!, steps: [String!]!, prepTime: String!, cookTime: String!, userId: String! ): ID!
-        updateRecipe( recipeId: String!, title: String, ingredients: [String!], steps: [String!], prepTime: String, cookTime: String, userId: String ): Recipe!
+        newRecipe( title: String!, ingredients: [String!]!, steps: [String!]!, prepTime: String!, cookTime: String! ): ID!
+        updateRecipe( recipeId: String!, title: String, ingredients: [String!], steps: [String!], prepTime: String, cookTime: String ): Recipe!
         deleteRecipe( recipeId: String! ): ID!
     }
 ` ) ;

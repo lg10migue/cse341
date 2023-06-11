@@ -1,11 +1,15 @@
 import express from "express" ;
+import cors from "cors" ;
+import passport from "passport" ;
+import session from "express-session" ;
 import { ApolloServer } from "@apollo/server" ;
 import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
 import { expressMiddleware } from "@apollo/server/express4" ;
 import { initDb } from "./db/connection" ;
-import cors from "cors" ;
-import { typeDefs } from "./graphql/schemas/schemas"
+import { typeDefs } from "./graphql/schemas/schemas" ;
 import { resolvers } from "./graphql/resolvers/resolvers" ;
+import { buildContext } from "graphql-passport" ;
+import "./oauth/passport" ;
 
 const port = process.env.PORT || 8080 ;
 const app = express();
@@ -18,8 +22,19 @@ async function startServer() {
         introspection: true
     } ) ;
 
+    app.use( session( { secret: process.env.SECRET as string, resave: false, saveUninitialized: false } ) ) ;
+    app.use( passport.initialize() ) ;
+    app.use( passport.session() ) ;
     await server.start() ;
-    app.use( "/graphql", cors(), express.json(), expressMiddleware( server ) ) ;
+    app.use( "/graphql", cors(), express.json(), expressMiddleware( server, {
+        context: async ( { req, res } ) => buildContext( { req, res } )
+    } ) ) ;
+
+    app.get( "/login", passport.authenticate( "github", { scope: [ "user:email" ] } ) ) ;
+    app.get( "/oauth-callback", passport.authenticate( "github", { failureRedirect: "/login" } ), ( req, res ) => res.redirect( "/graphql" ) ) ;
+    app.get( "/logout", ( req, res ) => {
+        req.logout( () => res.redirect( "/graphql" ) ) ;
+    } ) ;
 
     initDb( ( err: Error | null ) => {
         if ( err ) {

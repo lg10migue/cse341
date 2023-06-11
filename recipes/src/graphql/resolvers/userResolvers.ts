@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb" ;
 import * as mongodb from "../../db/connection" ;
 import { GraphQLError } from "graphql" ;
-import { checkEmail, checkId, checkRequiredFields } from "../../utils/validation" ;
+import { checkEmail, checkId, checkAuthentication } from "../../utils/validation" ;
 
 const usersCollection = () => {
     return mongodb.getDb().collection( "users" ) ;
@@ -9,7 +9,9 @@ const usersCollection = () => {
 
 const userResolvers = {
     Query: {
-        user: async ( _: any, { userId }: any ) => {
+        getUser: async ( _: any, args: any, context: any ) => {
+            checkAuthentication( context ) ;
+            const userId = context.getUser()._id ;
             checkId( userId ) ;
             try {
                 const user = await usersCollection().findOne( { _id: new ObjectId( userId ) } ) ;
@@ -18,31 +20,26 @@ const userResolvers = {
                 throw new GraphQLError( "An error occurs, please try again." ) ;
             } ;
         },
-        getAllUsers: async () => {
+        getAllUsers: async ( _: any, args: any, context: any ) => {
+            checkAuthentication( context ) ;
+            if ( context.getUser().githubId !== "97310991" ) {
+                throw new GraphQLError( "You don't have permissions to see this!" ) ;
+            } ;
             try {
-                const users = await usersCollection().find().toArray() ;
-                return users ;
+                return await usersCollection().find().toArray() ;
             } catch ( error ) {
                 throw new GraphQLError( "Cannot find users!" ) ;
             } ;
+            
         }
     },
     Mutation: {
-        newUser: async ( _: any, args: any ) => {
-            checkRequiredFields( args, [ "firstName", "lastName", "username", "email", "birthday", "password" ] ) ;
-            await checkEmail( args.email, usersCollection ) ;
-            const newUser = { firstName: args.firstName, lastName: args.lastName, username: args.username, email: args.email, birthday: args.birthday, password: args.password } ;
-            try {
-                const result = await usersCollection().insertOne( newUser ) ;
-                return result.insertedId.toString() ;
-            } catch ( error ) {
-                throw new GraphQLError( "Failed to create user!" ) ;
-            } ;
-        },
-        updateUser: async ( _: any, args: any ) => {
-            checkId( args.userId ) ;
-            const userId = new ObjectId( args.userId ) ;
-            const collectionFields = [ "firstName", "lastName", "username", "email", "birthday", "password" ] ;
+        updateUser: async ( _: any, args: any, context: any ) => {
+            checkAuthentication( context ) ;
+            let userId = context.getUser()._id ;
+            checkId( userId ) ;
+            userId = new ObjectId( userId ) ;
+            const collectionFields = [ "name", "preferredName", "username", "company", "email", "biography" ] ;
             const user: any = {} ;
             for ( const field of collectionFields ) {
                 if ( args[ field ] ) {
@@ -62,7 +59,9 @@ const userResolvers = {
                 throw new GraphQLError( "User not found, please check your userId!", { extensions: { code: "BAD_USER_INPUT" } } ) ;
             } ;
         },
-        deleteUser: async ( _: any, { userId }: any ) => {
+        deleteUser: async ( _: any, args: any, context: any ) => {
+            checkAuthentication( context ) ;
+            const userId = context.getUser()._id ;
             checkId( userId ) ;
             const result = await usersCollection().deleteOne( { _id: new ObjectId( userId ) } ) ;
             if ( result.deletedCount > 0 ) {

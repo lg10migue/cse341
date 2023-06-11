@@ -3,23 +3,24 @@ import { buildSchema } from "graphql" ;
 const userSchema = buildSchema( `
     type User {
         _id: ID!
-        firstName: String!
-        lastName: String!
+        githubId: String!
+        name: String!
+        preferredName: String!
         username: String!
+        company: String!
         email: String!
-        birthday: String!
-        password: String!
+        biography: String!
+        accessToken: String
     }
 
     type Query {
-        user( userId: ID! ): User!
+        getUser: User!
         getAllUsers: [User!]!
     }
 
     type Mutation {
-        newUser( firstName: String!, lastName: String!, username: String!, email: String!, birthday: String!, password: String! ): ID!
-        updateUser( userId: String!, firstName: String, lastName: String, username: String, email: String, birthday: String, password: String ): User!
-        deleteUser( userId: String! ): ID!
+        updateUser( name: String, preferredName: String, username: String, company: String, email: String, biography: String ): User!
+        deleteUser: ID!
     }
 ` ) ;
 
