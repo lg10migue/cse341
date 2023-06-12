@@ -10,6 +10,7 @@ const userSchema = buildSchema( `
         company: String!
         email: String!
         biography: String!
+        accessToken: String
     }
 
     type Query {

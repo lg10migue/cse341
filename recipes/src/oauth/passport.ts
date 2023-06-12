@@ -23,11 +23,11 @@ const gitHubCallBack = async ( accessToken: string, refreshToken: string, profil
             company: profile._json.company,
             email: profile._json.email,
             biography: profile._json.bio,
+            accessToken: accessToken
         } ;
         try {
             const result = await usersCollection().insertOne( newUser ) ;
             user = await usersCollection().findOne( { _id: result.insertedId } ) ;
-            return result.insertedId.toString() ;
         } catch ( error ) {
             throw new Error( "Failed to create user!" ) ;
         } ;
