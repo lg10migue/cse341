@@ -23,7 +23,6 @@ const gitHubCallBack = async ( accessToken: string, refreshToken: string, profil
             company: profile._json.company,
             email: profile._json.email,
             biography: profile._json.bio,
-            accessToken: accessToken
         } ;
         try {
             const result = await usersCollection().insertOne( newUser ) ;
